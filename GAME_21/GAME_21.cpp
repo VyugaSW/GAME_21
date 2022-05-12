@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <Windows.h>
+#include <random>
+
 
 using namespace std;
 // game 21
@@ -131,7 +133,7 @@ void cards_show(int card) {
 }
 void step_game(int cards_first, int cards_next) {
 	string flag;
-	int extra_card;
+	int extra_card; // дополнительная карта
 	bool f = true;
 	int summa_user = cards_first + cards_next, summa_comp = 0;
 	cout << "Ваши карты: " << cards_first << "," << cards_next << endl;
@@ -147,14 +149,21 @@ void step_game(int cards_first, int cards_next) {
 			cout << "Ваша карта: " << extra_card << endl;
 			cards_show(extra_card);
 			cout << "Итоговая сумма: " << summa_user << endl;
-			if (summa_user >= 21) {
+			if (summa_user > 21) {
+				//summa_comp += computer_turn();
+				f = win(summa_user, summa_comp);
+				continue;
+			}
+			else if (summa_user == 21) {
 				summa_comp += computer_turn();
 				f = win(summa_user, summa_comp);
+				continue;
 			}
 		}
 		else if (flag == "n") {
 			summa_comp += computer_turn();
 			f = win(summa_user, summa_comp);
+			continue;
 		}
 		else
 		{
@@ -166,9 +175,17 @@ void step_game(int cards_first, int cards_next) {
 
 // рандомная выдача карт. Начало
 int random_issuance_of_cards() {
-	srand(time(NULL));
-	int random_card = rand() % 10 + 2;
-	while (random_card == 5) random_card = rand() % 10 + 2;
+	int random_card;
+	random_device rd;   // non-deterministic generator
+	mt19937 gen(rd());  // to seed mersenne twister.
+	uniform_int_distribution<> dist(2, 11);
+	random_card = dist(gen);
+	while (random_card == 5) {
+		mt19937 gen(rd());
+
+		uniform_int_distribution<> dist(2, 11); 
+		random_card = dist(gen);
+	}
 	return random_card;
 }
 // учет повторяющихся карт
