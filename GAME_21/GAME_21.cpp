@@ -7,20 +7,17 @@ using namespace std;
 // game 21
 void main_menu();
 void step_game(int cards_first, int cards_next);
-int random_issuance_of_cards();
-int check_cards();
-int player_turn();
-int computer_turn();
-bool win(int summa_user, int summa_comp);
 void cards_show(int card);
 
 int main()
 {
 	setlocale(LC_ALL, "");
-	int first_card = check_cards(), second_card = check_cards();
-	main_menu();
-	step_game(first_card, second_card);
-
+	char flag = 'y';
+	while (flag == 'y') {
+		main_menu();
+		cout << "Продолжить игру? (y/n)\n";
+		cin >> flag;
+	}
 }
 
 // интерфейс игры. Начало
@@ -29,7 +26,8 @@ void main_menu() {
 	cout << "Хотите начать? (y/n)\n";
 	string flag;
 	cin >> flag;
-
+	int first_card = check_cards(), second_card = check_cards();	
+	step_game(first_card, second_card);
 }
 
 // Вывод самих карт

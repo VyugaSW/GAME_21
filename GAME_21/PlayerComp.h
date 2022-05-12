@@ -4,6 +4,23 @@
 
 using namespace std;
 
+int counter = 36;
+int arrayRepeatCards[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 }; // кол-во повторов
+
+//счетчик кол-ва карт
+int card_accounting(int c) {
+	if (c > 11) {
+		c--;
+	}
+	else {
+		cout << "\n\nОбновление колоды!!!\n\n";
+		for (int i = 0; i < 12; i++) {
+			arrayRepeatCards[i] = 0;
+		}
+		c = 36;
+	}
+	return c;
+}
 // рандомная выдача карт. Начало
 int random_issuance_of_cards() {
 	int random_card;
@@ -22,10 +39,10 @@ int random_issuance_of_cards() {
 
 // учет повторяющихся карт
 int check_cards() {
-	int arrayRepeatCards[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 }; // кол-во повторов
 	int random_card = random_issuance_of_cards();
+	counter = card_accounting(counter);
 	do {
-		if (arrayRepeatCards[random_card] > 4)
+		if (arrayRepeatCards[random_card] >= 4)
 			random_card = random_issuance_of_cards();
 		else {
 			arrayRepeatCards[random_card]++;
@@ -88,3 +105,5 @@ bool win(int summa_user, int summa_comp) {
 
 	return false;
 }
+
+
